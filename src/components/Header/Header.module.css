@@ -1,0 +1,14 @@
+.logoWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    margin: 0 !important;
+    padding: 0 15px;
+    color: #ffffff !important;
+}
+
+.logoLink {
+    color: #ffffff !important;
+}

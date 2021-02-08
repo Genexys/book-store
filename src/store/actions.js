@@ -1,6 +1,3 @@
-export const fetchBooks = (data) => {
-    return {
-        action: 'FETCH_BOOKS',
-        payload: data
-    }
+export const fetchingData = (data) => {
+    return {type: 'FETCH_DATA', payload: data}
 }

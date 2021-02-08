@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from "axios";
-import { Row, Col, Spin } from 'antd';
 import CardComponent from "../Card";
 
+import { Context } from "../../App";
+
+import { Row, Col, Spin } from 'antd';
+
+
 const CardList = () => {
+    const data = useContext(Context)
     const [listBook, setListBook] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect( () => {
-        const fetchData = async () => {
-            const data = await axios.get('http://localhost:3000/books');
-
-            return data;
-        }
-
-        fetchData().then(data => {
-            setLoading(false);
-            setListBook([...listBook, ...data.data]);
-        });
-
-    }, [])
+    const [loading, setLoading] = useState(false);
+    console.log(data)
+    // useEffect( () => {
+    //     const fetchData = async () => {
+    //         const data = await axios.get('http://localhost:3000/books');
+    //
+    //         return data;
+    //     }
+    //
+    //     fetchData().then(data => {
+    //         setLoading(false);
+    //         setListBook([...listBook, ...data.data]);
+    //     });
+    //
+    // }, [])
 
     return (
         <div className="site-card-wrapper">
@@ -28,7 +33,7 @@ const CardList = () => {
                  style={{ alignItems: "center" }}
                  justify="center"
             >
-                {loading ? <Spin /> : listBook.map((book) => {
+                {loading ? <Spin /> : data.map((book) => {
                     return (
                         <Col span={5} key={book.ISBN} >
                             <CardComponent data={book} />

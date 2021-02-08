@@ -1,40 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {useParams} from 'react-router-dom';
+import {Context} from "../../App";
 import { Layout, Row, Col, Typography, Image, List, Divider, Spin } from 'antd';
-import axios from "axios";
 
 const { Title } = Typography;
 
 const PageBook = () => {
+    const data = useContext(Context)
     const { id } = useParams();
-    const [book, setBook] = useState([]);
+    const [book, setBook] = useState();
     const [loading, setLoading] = useState(true);
 
     useEffect( () => {
-        const fetchData = async () => {
-            const fetchData = await axios.get('http://localhost:3000/books');
-            const data = fetchData.data;
+        const currentBook = data.filter(book => {
+            return book.ISBN === Number(id)
+        })
 
-            return data;
-        }
+        setBook(currentBook[0]);
+        setLoading(false);
 
-        fetchData().then(data => {
-            setLoading(false);
+    }, []);
 
-            console.log(data)
-
-            const itemBook = data.filter(book => {
-                console.log(book.ISBN, Number(id))
-                return book.ISBN === Number(id)
-            })
-            console.log(itemBook)
-            setBook([...book, ...itemBook])
-            console.log(book)
-        }).catch((error) => {
-            console.log(error)
-        });
-
-    }, [])
 
     if (loading) return <Spin />
 
@@ -48,7 +34,7 @@ const PageBook = () => {
                 <Col span={5}>
                     <Image
                         width={200}
-                        src={book[0].image}
+                        src={book.image}
                     />
                 </Col>
                 <Col span={17}>
@@ -56,7 +42,7 @@ const PageBook = () => {
                     {/*    header={<div>Header</div>}*/}
                     {/*    footer={<div>Footer</div>}*/}
                     {/*    bordered*/}
-                    {/*    dataSource={data}*/}
+                    {/*    dataSource={book}*/}
                     {/*    renderItem={item => (*/}
                     {/*        <List.Item>*/}
                     {/*            <Typography.Text mark>[ITEM]</Typography.Text> {item}*/}
